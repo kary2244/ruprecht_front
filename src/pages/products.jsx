@@ -125,7 +125,7 @@ const Products = () => {
           category: getCategoryByType(candle.typeCandle || candle.type_candle),
           size: candle.medidas,
           weight: candle.peso,
-          imageUrl: 'https://images.unsplash.com/photo-1602874801007-c9aa89ed2b09?w=400',
+          imageUrl: candle.image_url || candle.imageUrl || candle.imagen || 'https://images.unsplash.com/photo-1602874801007-c9aa89ed2b09?w=400',
           isFeatured: Boolean(candle.isFeatured ?? candle.is_featured),
           type: 'candle',
         }))
@@ -138,7 +138,7 @@ const Products = () => {
           category: 'Wax Cream y Melts',
           size: wax.medidas,
           weight: wax.peso,
-          imageUrl: 'https://images.unsplash.com/photo-1602874801007-c9aa89ed2b09?w=400',
+          imageUrl: wax.image_url || wax.imageUrl || wax.imagen || 'https://images.unsplash.com/photo-1602874801007-c9aa89ed2b09?w=400',
           type: 'wax',
           ...wax,
         }))
@@ -151,7 +151,7 @@ const Products = () => {
           description: 'Jabón artesanal natural',
           price: soap.costo,
           category: 'Jabones',
-          imageUrl: 'https://images.unsplash.com/photo-1608181078976-e7cb6d3a940a?w=400',
+          imageUrl: soap.image_url || soap.imageUrl || soap.imagen || 'https://images.unsplash.com/photo-1608181078976-e7cb6d3a940a?w=400',
           isFeatured: Boolean(soap.isFeatured ?? soap.is_featured),
           type: 'soap',
         }))
@@ -167,11 +167,11 @@ const Products = () => {
           size: `${essence.sizeMl || essence.size_ml} ml`,
           weight: `${essence.weightG || essence.weight_g} g / ${essence.weightOz || essence.weight_oz} oz`,
           scents: (essence.aromas || '')
-            .split(/[,\n]+/)
+            .split(/[\,\n]+/)
             .map((item) => item.trim())
             .filter((item) => item.length > 0)
             .filter((item, idx, arr) => arr.findIndex((entry) => entry.toLowerCase() === item.toLowerCase()) === idx),
-          imageUrl: 'https://images.unsplash.com/photo-1615634262417-f5dd37a3f5f7?w=400',
+          imageUrl: essence.image_url || essence.imageUrl || essence.imagen || 'https://images.unsplash.com/photo-1615634262417-f5dd37a3f5f7?w=400',
           isFeatured: Boolean(essence.isFeatured ?? essence.is_featured),
           type: 'essence',
         }))
@@ -186,7 +186,7 @@ const Products = () => {
           category: 'Accesorios',
           size: accessory.medidas,
           searchText: `${accessory.nombre || ''} ${accessory.medidas || ''}`,
-          imageUrl: 'https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=400',
+          imageUrl: accessory.image_url || accessory.imageUrl || accessory.imagen || 'https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=400',
           type: 'accessory',
           isFeatured: Boolean(accessory.isFeatured ?? accessory.is_featured),
         }))
@@ -200,7 +200,7 @@ const Products = () => {
           price: extra.costo,
           category: 'Extras',
           searchText: `${extra.nombre || ''}`,
-          imageUrl: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400',
+          imageUrl: extra.image_url || extra.imageUrl || extra.imagen || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400',
           type: 'extra',
           isFeatured: Boolean(extra.isFeatured ?? extra.is_featured),
         }))
