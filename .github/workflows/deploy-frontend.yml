@@ -35,6 +35,8 @@ jobs:
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
       - name: Add CNAME file
         run: echo "ruprecht.store" > dist/CNAME
+      - name: List dist directory for debug
+        run: ls -l dist
       - name: Copy index.html to 404.html for SPA support
         run: cp dist/index.html dist/404.html
       - name: Upload artifact
