@@ -265,9 +265,11 @@ const MODULE_CONFIG = {
       { name: 'costo', label: 'Costo', type: 'text', required: true },
       { name: 'medidas', label: 'Medidas', type: 'text' },
       { name: 'peso', label: 'Peso', type: 'text' },
+      { name: 'imageUrl', label: 'URL Imagen', type: 'url' },
     ],
     columns: [
       { label: 'Nombre', key: 'nombre' },
+      { label: 'Imagen', key: 'imageUrl' },
       { label: 'Costo', key: 'costo' },
       { label: 'Medidas', key: 'medidas' },
       { label: 'Peso', key: 'peso' },
@@ -277,18 +279,21 @@ const MODULE_CONFIG = {
       costo: '',
       medidas: '',
       peso: '',
+      imageUrl: '',
     }),
     parseRecord: (record) => ({
       nombre: record.nombre || '',
       costo: record.costo || '',
       medidas: record.medidas || '',
       peso: record.peso || '',
+      imageUrl: record.imageUrl || record.image_url || '',
     }),
     serialize: (formData, isUpdate) => ({
       nombre: String(formData.nombre || '').trim(),
       costo: String(formData.costo || '').trim(),
       medidas: normalizeOptionalString(formData.medidas, isUpdate),
       peso: normalizeOptionalString(formData.peso, isUpdate),
+      image_url: normalizeOptionalString(formData.imageUrl, isUpdate),
     }),
   },
   soaps: {
@@ -912,7 +917,12 @@ const AdminPanel = () => {
       const payload = new FormData()
       payload.append('image', selectedFile)
 
-      const uploadTarget = selectedModule === 'users' ? 'users' : 'products'
+      let uploadTarget = 'products';
+      if (selectedModule === 'users') {
+        uploadTarget = 'users';
+      } else if (selectedModule === 'wax') {
+        uploadTarget = 'wax-cream';
+      }
       const response = await axios.post(`${API_BASE_URL}/${uploadTarget}/upload-image`, payload, {
         headers: {
           Authorization: `Bearer ${getAdminToken()}`,
