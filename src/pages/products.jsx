@@ -56,6 +56,7 @@ const Products = () => {
   }
 
   useEffect(() => {
+     console.log('API_BASE_URL (producción):', API_BASE_URL)
     const fetchProducts = async () => {
       try {
         const fetchAllItems = async (url) => {
