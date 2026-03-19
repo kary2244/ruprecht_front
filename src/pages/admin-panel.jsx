@@ -1653,11 +1653,31 @@ const AdminPanel = () => {
                               <button
                                 type="button"
                                 className="admin-btn admin-btn-secondary"
-                                onClick={() => {
-                                  setFormData((prev) => ({
-                                    ...prev,
-                                    imageUrl: '',
-                                  }))
+                                onClick={async () => {
+                                  if (selectedModule === 'wax' && editingId) {
+                                    try {
+                                      setLoadingAction(true)
+                                      await axios.delete(`${API_BASE_URL}/wax-cream/${editingId}/image`, {
+                                        headers: {
+                                          Authorization: `Bearer ${getAdminToken()}`,
+                                        },
+                                      })
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        imageUrl: '',
+                                      }))
+                                      setStatus({ type: 'success', message: 'Imagen eliminada correctamente.' })
+                                    } catch (error) {
+                                      setStatus({ type: 'error', message: getErrorMessage(error, 'No se pudo eliminar la imagen.') })
+                                    } finally {
+                                      setLoadingAction(false)
+                                    }
+                                  } else {
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      imageUrl: '',
+                                    }))
+                                  }
                                 }}
                                 disabled={loadingAction || uploadingImage}
                               >

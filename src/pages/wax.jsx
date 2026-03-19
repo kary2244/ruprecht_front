@@ -14,22 +14,20 @@ const Wax = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Obtener productos tipo wax cream (typeCandle = 4)
-        const response = await axios.get(`${API_BASE_URL}/candles`, {
-          params: { type_candle: 4, limit: 100 }
+        // Obtener productos wax cream desde el endpoint correcto
+        const response = await axios.get(`${API_BASE_URL}/wax-cream`, {
+          params: { limit: 100 }
         })
-        const candlesData = response.data.data || response.data
-        const transformedProducts = candlesData.map((candle) => ({
-          id: candle.id,
-          name: candle.nombre,
-          description: `Cera aromática ${candle.medidas || ''}`,
-          price: candle.costo,
+        const waxData = response.data.data || response.data
+        const transformedProducts = waxData.map((wax) => ({
+          id: wax.id,
+          name: wax.nombre,
+          description: `Cera aromática ${wax.medidas || ''}`,
+          price: wax.costo,
           category: 'Wax Cream y Melts',
-          size: candle.medidas,
-          weight: candle.peso,
-          imageUrl: 'https://images.unsplash.com/photo-1602874801007-c9aa89ed2b09?w=400',
-          isFeatured: Boolean(candle.isFeatured ?? candle.is_featured),
-          ...candle
+          imageUrl: wax.image_url || wax.imageUrl || wax.imagen || 'https://images.unsplash.com/photo-1602874801007-c9aa89ed2b09?w=400',
+          isFeatured: Boolean(wax.isFeatured ?? wax.is_featured),
+          ...wax
         }))
         setProducts(transformedProducts)
       } catch (error) {
